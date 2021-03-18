@@ -1,0 +1,12 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div class="profile_details text-center">
+        <img src="https://m.media-amazon.com/images/M/MV5BMTU0MjEyNzQyM15BMl5BanBnXkFtZTcwMTc4ODUxOQ@@._V1_.jpg" 
+        alt="profile picture of {{username}}"
+        height='300px' width="300px">
+        <h1>{{username}}</h1>
+        <p>{{email}}</p>
+    </div>
+
+{% endblock %}
