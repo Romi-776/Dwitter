@@ -1,12 +1,26 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <div class="profile_details text-center">
-        <img src="https://m.media-amazon.com/images/M/MV5BMTU0MjEyNzQyM15BMl5BanBnXkFtZTcwMTc4ODUxOQ@@._V1_.jpg" 
-        alt="profile picture of {{username}}"
-        height='300px' width="300px">
-        <h1>{{username}}</h1>
-        <p>{{email}}</p>
-    </div>
+<div
+    style="background-image: url('https://www.teahub.io/photos/full/187-1878181_hawaii-beach-pictures-wallpapers-backgrounds-for-pc-4k.jpg');background-size:cover;background-position:center; height:230px; ;padding-top:120px;">
+    <img src="https://images.unsplash.com/photo-1529665253569-6d01c0eaf7b6?ixid=MXwxMjA3fDB8MHxzZWFyY2h8M3x8cHJvZmlsZXxlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80;"
+        style="margin-left: 5%; height:150px;width: 150px; border-radius: 7%; border: 4px solid #ffffff;"
+        alt="Profile Pic of {{username}}" title="{{username}}">
+</div>
 
+<div class="user-details" style="margin-left: 5%; margin-top: 40px;float: left;">
+    <div id="name-and-username">
+        <h4>Eddie Smith</h4>
+        <h5 class="text-muted">@{{username}}</h5>
+    </div><br>
+    <p class="text-muted fa">&#xf073; Joined June 2020</p>
+    <div id="follow-details">
+        <h6 style="text-align:left;float:left;margin-right: 10px;">500 <span class="text-muted">Followers</span></h6>
+        <h6 style="float:left;">20 <span class="text-muted">Following</span> </h6>
+    </div>
+</div>
+
+<div class="follow-unfollow" style="float: right;margin-top: 20px;">
+    <button class="btn btn-outline-primary" style="border-radius: 5px 23px;">Follow</button>
+</div>
 {% endblock %}

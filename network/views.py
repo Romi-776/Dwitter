@@ -44,9 +44,29 @@ def register(request):
         # Ensure password matches confirmation
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
+
+        # Ensure that all the fields are not empty
+        if username == "":
+            return render(request, "network/register.html", {
+                "message": "Enter your Username!"
+            })
+        elif email == "":
+            return render(request, "network/register.html", {
+                "message": "Enter your Email ID!"
+            })
+        elif password == "":
+            return render(request, "network/register.html", {
+                "message": "Enter your Password!"
+            })
+        elif confirmation == "":
+            return render(request, "network/register.html", {
+                "message": "Enter Password Confirmation!"
+            })
+
+        # Ensure that password and confirmation match
         if password != confirmation:
             return render(request, "network/register.html", {
-                "message": "Passwords must match."
+                "message": "Passwords must match!"
             })
 
         # Attempt to create new user
