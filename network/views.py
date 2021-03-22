@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User
+from .models import User, post
 
 
 def index(request):
@@ -24,9 +24,11 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "network/login.html", {
-                "message": "Invalid username and/or password."
-            })
+            return render(
+                request,
+                "network/login.html",
+                {"message": "Invalid username and/or password."},
+            )
     else:
         return render(request, "network/login.html")
 
@@ -47,36 +49,38 @@ def register(request):
 
         # Ensure that all the fields are not empty
         if username == "":
-            return render(request, "network/register.html", {
-                "message": "Enter your Username!"
-            })
+            return render(
+                request, "network/register.html", {"message": "Enter your Username!"}
+            )
         elif email == "":
-            return render(request, "network/register.html", {
-                "message": "Enter your Email ID!"
-            })
+            return render(
+                request, "network/register.html", {"message": "Enter your Email ID!"}
+            )
         elif password == "":
-            return render(request, "network/register.html", {
-                "message": "Enter your Password!"
-            })
+            return render(
+                request, "network/register.html", {"message": "Enter your Password!"}
+            )
         elif confirmation == "":
-            return render(request, "network/register.html", {
-                "message": "Enter Password Confirmation!"
-            })
+            return render(
+                request,
+                "network/register.html",
+                {"message": "Enter Password Confirmation!"},
+            )
 
         # Ensure that password and confirmation match
         if password != confirmation:
-            return render(request, "network/register.html", {
-                "message": "Passwords must match!"
-            })
+            return render(
+                request, "network/register.html", {"message": "Passwords must match!"}
+            )
 
         # Attempt to create new user
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
-            return render(request, "network/register.html", {
-                "message": "Username already taken."
-            })
+            return render(
+                request, "network/register.html", {"message": "Username already taken."}
+            )
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
     else:
@@ -84,7 +88,28 @@ def register(request):
 
 
 def profile(request):
-    return render(request, "network/profile.html", {
-        'username': request.user.username,
-        'email': request.user.email,
-    })
+    return render(
+        request,
+        "network/profile.html",
+        {
+            "username": request.user.username,
+            "email": request.user.email,
+        },
+    )
+
+
+def share_post(request):
+    if request.method == "POST" and request.user.is_authenticated:
+        post_des = request.POST["description"]
+
+        if post_des == "":
+            return HttpResponse("Empty post, Can't share this!")
+
+        new_post = post(posted_by=request.user, description=post_des)
+        new_post.save()
+
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(
+            request, "network/login.html", {"message": "Login to share your Post!"}
+        )
