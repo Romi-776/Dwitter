@@ -3,10 +3,12 @@ from django.db import models
 
 
 class User(AbstractUser):
+    '''Model class for USER related details'''
     pass
 
 
 class post(models.Model):
+    '''Model class for POST related details'''
     posted_by = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name="post_owner"
     )

@@ -8,7 +8,15 @@ from .models import User, post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    all_posts = post.objects.order_by("posted_on").reverse()
+
+    return render(
+        request,
+        "network/index.html",
+        {
+            "all_posts": all_posts,
+        },
+    )
 
 
 def login_view(request):
@@ -88,12 +96,16 @@ def register(request):
 
 
 def profile(request):
+    my_posts = post.objects.filter(posted_by=request.user)
+    for i in my_posts:
+        print(i.description)
     return render(
         request,
         "network/profile.html",
         {
             "username": request.user.username,
             "email": request.user.email,
+            "my_posts": my_posts,
         },
     )
 

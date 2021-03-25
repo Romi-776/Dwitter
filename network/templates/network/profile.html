@@ -26,4 +26,34 @@
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
     <button class="btn btn-outline-dark" style="border-radius: 5px 23px;">Follow</button>
 </div>
-{% endblock %}
+
+<hr style="margin-top: 28%;border: 2px solid black;">
+
+<div class="my-posts">
+    {% for post in my_posts %}
+    <div class="card">
+        <div class="card-header">
+            <strong>@{{post.posted_by.username}}</strong>
+        </div>
+        <div class="card-body">
+            <p>
+                {{post.description}}
+            </p>
+        </div>
+        <div class="card-footer text-muted">
+            {{post.posted_on}}
+        </div>
+        {% empty %}
+        <div class="text-center">
+            <h3>You haven't Dweeted yet</h3>
+            <p class="text-muted">When you post a Dweet, it'll show up here.</p>
+            <form action="{% url 'index' %}">
+                <button type="submit" style="border-radius: 5px 23px;" class="btn btn-outline-info">
+                    Dweet Now
+                </button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+    {% endblock %}
+</div>
