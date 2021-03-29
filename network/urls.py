@@ -10,4 +10,5 @@ urlpatterns = [
     path("register", views.register, name="register"),
     path('profile', views.profile, name='profile'),
     path('share_post', views.share_post, name="share_post"),
+    path('<int:user_id>', views.others_profile, name="others_profile")
 ]

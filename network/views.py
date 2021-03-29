@@ -96,16 +96,15 @@ def register(request):
 
 
 def profile(request):
-    my_posts = post.objects.filter(posted_by=request.user)
-    for i in my_posts:
-        print(i.description)
+    posts = post.objects.filter(posted_by=request.user)
+
     return render(
         request,
         "network/profile.html",
         {
             "username": request.user.username,
             "email": request.user.email,
-            "my_posts": my_posts,
+            "posts": posts,
         },
     )
 
@@ -125,3 +124,20 @@ def share_post(request):
         return render(
             request, "network/login.html", {"message": "Login to share your Post!"}
         )
+
+
+def others_profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if user:
+        posts = post.objects.filter(posted_by=user)
+
+        return render(
+            request,
+            "network/profile.html",
+            {
+                "username": user.username,
+                "email": user.email,
+                "posts": posts,
+            },
+        )
+    return HttpResponse("NO user with that name!!!")

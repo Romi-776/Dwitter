@@ -23,16 +23,19 @@
     </div>
 </div>
 
+{% if request.user.username != username %}
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
     <button class="btn btn-outline-dark" style="border-radius: 5px 23px;">Follow</button>
 </div>
+{% endif %}
 
 <hr style="margin-top: 28%;border: 2px solid black;">
 
 <div class="my-posts">
-    {% for post in my_posts %}
+    {% for post in posts %}
     <div class="card">
         <div class="card-header">
+            
             <strong>@{{post.posted_by.username}}</strong>
         </div>
         <div class="card-body">

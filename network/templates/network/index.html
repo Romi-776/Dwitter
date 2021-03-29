@@ -17,7 +17,9 @@
     {% for post in all_posts %}
     <div class="card">
         <div class="card-header">
-            <strong>{{post.posted_by.username}}</strong>
+            <a href='{{post.posted_by.pk}}'>
+                <strong>{{post.posted_by.username}}</strong>
+            </a>
         </div>
         <div class="card-body">
             <p>
