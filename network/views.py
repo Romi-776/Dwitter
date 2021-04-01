@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import User, post
+from .models import *
 
 
 def index(request):
@@ -96,7 +96,10 @@ def register(request):
 
 
 def profile(request):
-    posts = post.objects.filter(posted_by=request.user)
+    posts = post.objects.filter (posted_by=request.user)
+
+    followers = User.objects.get(username=request.user.username).my_followers.count()
+    following = User.objects.get(username=request.user.username).my_following.count()
 
     return render(
         request,
@@ -105,6 +108,8 @@ def profile(request):
             "username": request.user.username,
             "email": request.user.email,
             "posts": posts,
+            "followers": followers,
+            "following": following,
         },
     )
 
@@ -130,6 +135,8 @@ def others_profile(request, user_id):
     user = User.objects.get(pk=user_id)
     if user:
         posts = post.objects.filter(posted_by=user)
+        followers = User.objects.get(username=user.username).my_followers.count()
+        following = User.objects.get(username=user.username).my_following.count()
 
         return render(
             request,
@@ -138,6 +145,8 @@ def others_profile(request, user_id):
                 "username": user.username,
                 "email": user.email,
                 "posts": posts,
+                "followers": followers,
+                "following": following,
             },
         )
     return HttpResponse("NO user with that name!!!")
