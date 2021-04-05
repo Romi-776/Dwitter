@@ -96,7 +96,7 @@ def register(request):
 
 
 def profile(request):
-    posts = post.objects.filter (posted_by=request.user)
+    posts = post.objects.filter(posted_by=request.user)
 
     followers = User.objects.get(username=request.user.username).my_followers.count()
     following = User.objects.get(username=request.user.username).my_following.count()

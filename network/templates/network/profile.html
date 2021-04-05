@@ -18,14 +18,16 @@
     </div>
     <p class="text-muted fa" style="margin-top: 12px;">&#xf073; Joined June 2020</p>
     <div id="follow-details">
-        <h6 style="text-align:left;float:left;margin-right: 10px;">{{followers}} <span class="text-muted">Followers</span></h6>
+        <h6 style="text-align:left;float:left;margin-right: 10px;"> <span id="followers">{{followers}}</span> <span
+                class="text-muted">Followers</span></h6>
         <h6 style="float:left;">{{following}} <span class="text-muted">Following</span> </h6>
     </div>
 </div>
 
 {% if request.user.username != username %}
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
-    <button class="btn btn-outline-dark" style="border-radius: 5px 23px;">Follow</button>
+    <button class="btn btn-outline-dark" onclick="change_follow_button_text()" id="follow-button"
+        style="border-radius: 5px 23px;">Follow</button>
 </div>
 {% endif %}
 
@@ -35,7 +37,7 @@
     {% for post in posts %}
     <div class="card">
         <div class="card-header">
-            
+
             <strong>@{{post.posted_by.username}}</strong>
         </div>
         <div class="card-body">
