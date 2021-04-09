@@ -24,13 +24,13 @@
     </div>
 </div>
 
-{% if request.user.username != username %}
+{% if request.user.username != username and user.is_authenticated %}
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
-    <form action="{% url 'change_follower_following' %}" method="post">
+    <form action="{% url 'follow_unfollow' %}" method="post">
         {% csrf_token %}
         <input type="text" value="{{username}}" hidden name="username">
-        <button class="btn btn-outline-dark" type="submit" onclick="change_follow_button_text()" id="follow-button"
-            style="border-radius: 5px 23px;">Follow</button>
+        <button class="btn btn-outline-{{follow_button_style}}" name="follow_unfollow_button" value="{{follow_button_text}}" type="submit"  id="follow-button"
+            style="border-radius: 5px 23px;">{{follow_button_text}}</button>
     </form>
 </div>
 {% endif %}

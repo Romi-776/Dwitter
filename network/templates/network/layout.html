@@ -5,22 +5,7 @@
 
     <head>
         <title>{% block title %}Social Network{% endblock %}</title>
-
-        <script>
-            function change_follow_button_text() {
-                const button_text = document.querySelector("#follow-button");
-                const followers = parseInt(document.querySelector("#followers").innerHTML);
-                if (button_text.innerHTML === "Follow") {
-                    document.querySelector("#followers").innerHTML = followers + 1;
-                    button_text.innerHTML = "Following";
-                }
-                else {
-                    document.querySelector("#followers").innerHTML = followers - 1;
-                    button_text.innerHTML = "Follow";
-                }
-            };
-        </script>
-
+        
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
