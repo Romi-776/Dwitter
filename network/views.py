@@ -150,3 +150,29 @@ def others_profile(request, user_id):
             },
         )
     return HttpResponse("NO user with that name!!!")
+
+
+def change_follower_following(request):
+    if request.method == "POST":
+        follow_request_from = request.user.username
+        follow_request_to = ""
+        try:
+            follow_request_to = request.POST["username"]
+        except IntegrityError:
+            return HttpResponse(
+                "Something went wrong while fetching the name of the person to whom you sent a follow request"
+            )
+
+        new_follower = User.objects.get(username=follow_request_to)
+        new_following = User.objects.get(username=follow_request_from)
+
+        try:
+            new_follower_following = follower_following.objects.create(
+                following=new_following, followers=new_follower
+            )
+            new_follower_following.save()
+        except IntegrityError:
+            return HttpResponse(
+                "Something went wrong while creating a new follower_following instance"
+            )
+        return HttpResponseRedirect(reverse("others_profile", args=[new_follower.id]))

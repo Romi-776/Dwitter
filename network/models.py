@@ -28,3 +28,6 @@ class follower_following(models.Model):
     following = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="my_following"
     )
+
+    def __str__(self):
+        return f"{self.followers} is followed by {self.following}"

@@ -26,8 +26,12 @@
 
 {% if request.user.username != username %}
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
-    <button class="btn btn-outline-dark" onclick="change_follow_button_text()" id="follow-button"
-        style="border-radius: 5px 23px;">Follow</button>
+    <form action="{% url 'change_follower_following' %}" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{username}}" hidden name="username">
+        <button class="btn btn-outline-dark" type="submit" onclick="change_follow_button_text()" id="follow-button"
+            style="border-radius: 5px 23px;">Follow</button>
+    </form>
 </div>
 {% endif %}
 
