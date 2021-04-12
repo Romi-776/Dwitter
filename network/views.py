@@ -14,11 +14,15 @@ def index(request):
     # sorted according to recently posted
     all_posts = post.objects.order_by("posted_on").reverse()
 
+    posts_and_likes = []
+    for p in all_posts:
+        posts_and_likes.append((p, likes.objects.filter(on_which_post=p).count()))
+    
     return render(
         request,
         "network/index.html",
         {
-            "all_posts": all_posts,
+            "all_posts": posts_and_likes,
         },
     )
 
@@ -283,4 +287,15 @@ def follow_unfollow(request):
             # returning to that user's id on whom's profile the follow button is clicked
             return HttpResponseRedirect(
                 reverse("others_profile", args=[person_who_get_unfollowed.id])
+            )
+
+def like_post(request):
+    if request.user.is_authenticated:
+        print(f"{request.GET['this_post']}")
+        return HttpResponse("You just liked a post")
+    else:
+        return render(
+                request,
+                "network/login.html",
+                {"message": "You should Login first!"},
             )

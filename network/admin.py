@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(post)
 admin.site.register(User)
 admin.site.register(follower_following)
+admin.site.register(likes)

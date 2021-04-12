@@ -22,6 +22,8 @@ class post(models.Model):
 
 
 class follower_following(models.Model):
+    """Model class for follower-following related details"""
+
     followers = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="my_followers"
     )
@@ -31,3 +33,15 @@ class follower_following(models.Model):
 
     def __str__(self):
         return f"{self.followers} is followed by {self.following}"
+
+
+class likes(models.Model):
+    """Model class for likes related details"""
+
+    on_which_post = models.ForeignKey(
+        post, on_delete=models.CASCADE, related_name="likes_on_this_post"
+    )
+    when = models.DateTimeField(auto_now_add=True)
+    who = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="who_liked_this_post"
+    )
