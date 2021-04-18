@@ -1,6 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+{% if on_index_page %}
 <div class="card text-center new-post">
     <div class="card-header"> <b>New Post</b></div>
     <div class="card-body">
@@ -12,6 +13,7 @@
         </form>
     </div>
 </div>
+{% endif %}
 
 <div class="all-posts">
     {% for post in all_posts %}

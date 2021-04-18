@@ -24,6 +24,39 @@ def index(request):
         "network/index.html",
         {
             "all_posts": posts_and_likes,
+            'on_index_page': True,
+        },
+    )
+
+def posts_of_following(request):
+    '''Following page to see the following people's posts only '''
+
+    # getting all the following people's ids
+    my_following = follower_following.objects.filter(following=request.user)
+
+    # checking that there's atleast one person that i'm following  
+    if not len(my_following):
+        return HttpResponse("You aren't following anyone yet!")
+    
+    # storing the names of the people that i'm following 
+    my_following_names = []
+    for i in my_following:
+        my_following_names.append(i.followers)
+
+    # getting all the posts of the people that i'm following
+    all_posts = post.objects.filter(posted_by__in=my_following_names).order_by("posted_on").reverse()
+
+    # getting the likes count on that posts
+    posts_and_likes = []
+    for p in all_posts:
+        posts_and_likes.append((p, likes.objects.filter(on_which_post=p).count()))
+
+    return render(
+        request,
+        "network/index.html",
+        {
+            "all_posts": posts_and_likes,
+            'on_index_page': False,
         },
     )
 
@@ -292,11 +325,16 @@ def follow_unfollow(request):
 
 
 def like_post(request):
+    '''Like Unlike the post '''
+
+    # checking that the user is authenticated and the request is from genuine place
     if request.user.is_authenticated and request.method == "POST":
-        # getting the id of the post
+        # getting the id of the post on which the user want to like the post
         post_id = request.POST["this_post"]
         this_post = post.objects.get(pk=post_id)
 
+        # if the post is already liked then we're un liking the post otherwise
+        # we're liking the post
         try:
             likes.objects.get(on_which_post=this_post, who=request.user.id).delete()
         except ObjectDoesNotExist:
@@ -308,6 +346,7 @@ def like_post(request):
                     "Something went wrong while creating a new like instance"
                 )
 
+        # returning to the index page
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(
