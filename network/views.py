@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import *
 
@@ -17,7 +18,7 @@ def index(request):
     posts_and_likes = []
     for p in all_posts:
         posts_and_likes.append((p, likes.objects.filter(on_which_post=p).count()))
-    
+
     return render(
         request,
         "network/index.html",
@@ -289,13 +290,28 @@ def follow_unfollow(request):
                 reverse("others_profile", args=[person_who_get_unfollowed.id])
             )
 
+
 def like_post(request):
-    if request.user.is_authenticated:
-        print(f"{request.GET['this_post']}")
-        return HttpResponse("You just liked a post")
+    if request.user.is_authenticated and request.method == "POST":
+        # getting the id of the post
+        post_id = request.POST["this_post"]
+        this_post = post.objects.get(pk=post_id)
+
+        try:
+            likes.objects.get(on_which_post=this_post, who=request.user.id).delete()
+        except ObjectDoesNotExist:
+            try:
+                new_like = likes.objects.create(on_which_post=this_post, who=request.user)
+                new_like.save()
+            except IntegrityError:
+                return HttpResponse(
+                    "Something went wrong while creating a new like instance"
+                )
+
+        return HttpResponseRedirect(reverse("index"))
     else:
         return render(
-                request,
-                "network/login.html",
-                {"message": "You should Login first!"},
-            )
+            request,
+            "network/login.html",
+            {"message": "You should Login first!"},
+        )
