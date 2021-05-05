@@ -70,6 +70,8 @@
             {{post.0.posted_on}}
         </div>
     </div>
+    {% empty %}
+        <h2 class="text-center">No Post Shared Yet</h2>
     {% endfor %}
 
     <!-- Editing of the post will be done inside a MODAL -->

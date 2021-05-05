@@ -2,8 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+import json
 from django.urls import reverse
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from .models import *
 
@@ -24,27 +28,32 @@ def index(request):
         "network/index.html",
         {
             "all_posts": posts_and_likes,
-            'on_index_page': True,
+            "on_index_page": True,
         },
     )
 
+
 def posts_of_following(request):
-    '''Following page to see the following people's posts only '''
+    """Following page to see the following people's posts only """
 
     # getting all the following people's ids
     my_following = follower_following.objects.filter(following=request.user)
 
-    # checking that there's atleast one person that i'm following  
+    # checking that there's at least one person that i'm following
     if not len(my_following):
         return HttpResponse("You aren't following anyone yet!")
-    
-    # storing the names of the people that i'm following 
+
+    # storing the names of the people that i'm following
     my_following_names = []
     for i in my_following:
         my_following_names.append(i.followers)
 
     # getting all the posts of the people that i'm following
-    all_posts = post.objects.filter(posted_by__in=my_following_names).order_by("posted_on").reverse()
+    all_posts = (
+        post.objects.filter(posted_by__in=my_following_names)
+        .order_by("posted_on")
+        .reverse()
+    )
 
     # getting the likes count on that posts
     posts_and_likes = []
@@ -56,7 +65,7 @@ def posts_of_following(request):
         "network/index.html",
         {
             "all_posts": posts_and_likes,
-            'on_index_page': False,
+            "on_index_page": False,
         },
     )
 
@@ -257,7 +266,6 @@ def follow_unfollow(request):
     if request.method == "POST":
 
         text_returned = request.POST["follow_unfollow_button"]
-        print(text_returned)
 
         if text_returned == "follow":
             # who clicked the button and on whom's profile
@@ -325,7 +333,7 @@ def follow_unfollow(request):
 
 
 def like_post(request):
-    '''Like Unlike the post '''
+    """Like Unlike the post """
 
     # checking that the user is authenticated and the request is from genuine place
     if request.user.is_authenticated and request.method == "POST":
@@ -339,7 +347,9 @@ def like_post(request):
             likes.objects.get(on_which_post=this_post, who=request.user.id).delete()
         except ObjectDoesNotExist:
             try:
-                new_like = likes.objects.create(on_which_post=this_post, who=request.user)
+                new_like = likes.objects.create(
+                    on_which_post=this_post, who=request.user
+                )
                 new_like.save()
             except IntegrityError:
                 return HttpResponse(
@@ -354,3 +364,22 @@ def like_post(request):
             "network/login.html",
             {"message": "You should Login first!"},
         )
+
+
+@csrf_exempt
+@login_required
+def update_post(request):
+    # checking that the request is sent via post
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required"}, status=400)
+
+    # getting the data that needs to be updated
+    data = json.loads(request.body)
+
+    # getting the post that needs to be updated
+    updated_post = post.objects.filter(pk=int(data.get("post_id"))).update(
+        description=data.get("updated_description"), posted_on=data.get("updated_on")
+    )
+
+    # post is updated, just confirming
+    return JsonResponse({"Message": "Post Updated!"}, status=201)

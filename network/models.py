@@ -11,7 +11,7 @@ class User(AbstractUser):
 class post(models.Model):
     """Model class for POST related details"""
 
-    posted_by = models.OneToOneField(
+    posted_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="post_owner"
     )
     posted_on = models.DateTimeField(auto_now_add=True)
