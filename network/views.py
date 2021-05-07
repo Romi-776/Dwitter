@@ -8,6 +8,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 from .models import *
 
@@ -23,12 +24,28 @@ def index(request):
     for p in all_posts:
         posts_and_likes.append((p, likes.objects.filter(on_which_post=p).count()))
 
+    paginator = Paginator(posts_and_likes, 1)
+    page_number = request.GET.get("page", 1)
+    page = paginator.get_page(page_number)
+
+    if page.has_next():
+        next_url = f"?page={page.next_page_number()}"
+    else:
+        next_url = ""
+
+    if page.has_previous():
+        prev_url = f"?page={page.previous_page_number()}"
+    else:
+        prev_url = ""
+
     return render(
         request,
         "network/index.html",
         {
-            "all_posts": posts_and_likes,
+            "page": page,
             "on_index_page": True,
+            "next_page_url": next_url,
+            "prev_page_url": prev_url,
         },
     )
 

@@ -24,7 +24,7 @@
 <!-- All posts -->
 <div class="all-posts">
     <!-- Going through each post one by one -->
-    {% for post in all_posts %}
+    {% for post in page.object_list %}
 
     {% with u_name=post.0.posted_by.username %}
 
@@ -38,9 +38,10 @@
             {% if u_name == request.user.username %}
             <span class="float-right">
                 <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                    data-bs-post_owner="{{u_name}}" data-bs-post_no="{{post.0.pk}}" data-bs-post="{{post.0.description}}">Edit</button>
-                </span>
-                {% endif %}
+                    data-bs-post_owner="{{u_name}}" data-bs-post_no="{{post.0.pk}}"
+                    data-bs-post="{{post.0.description}}">Edit</button>
+            </span>
+            {% endif %}
         </div>
         {% endwith %}
         <!-- Post details -->
@@ -54,7 +55,7 @@
                 <input type="text" value="{{post.0.id}} " hidden name="this_post">
                 <input type="text" name="liked_or_not" value="{{like_text}}" hidden id="liked_or_not">
                 <svg viewBox="0 0 24 24" style="height: 15px;width: 15px; cursor:pointer"
-                class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi">
+                    class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-1hdv0qi">
                     <g>
                         <path
                             d="M12 21.638h-.014C9.403 21.59 1.95 14.856 1.95 8.478c0-3.064 2.525-5.754 5.403-5.754 2.29 0 3.83 1.58 4.646 2.73.814-1.148 2.354-2.73 4.645-2.73 2.88 0 5.404 2.69 5.404 5.755 0 6.376-7.454 13.11-10.037 13.157H12zM7.354 4.225c-2.08 0-3.903 1.988-3.903 4.255 0 5.74 7.034 11.596 8.55 11.658 1.518-.062 8.55-5.917 8.55-11.658 0-2.267-1.823-4.255-3.903-4.255-2.528 0-3.94 2.936-3.952 2.965-.23.562-1.156.562-1.387 0-.014-.03-1.425-2.965-3.954-2.965z">
@@ -71,18 +72,16 @@
         </div>
     </div>
     {% empty %}
-        <h2 class="text-center">No Post Shared Yet</h2>
+    <h2 class="text-center">No Post Shared Yet</h2>
     {% endfor %}
 
     <!-- Editing of the post will be done inside a MODAL -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -93,11 +92,40 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id='close-modal' class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id='close-modal' class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
                     <button type="button" id="save-changes" class="btn btn-primary">Save Changes</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+            <a class="page-link" href="{{prev_page_url}}" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+        {% for page_num in page.paginator.page_range %}
+        {% if page.number == page_num %}
+
+        <li class="page-item active" aria-current="page">
+            <a class="page-link" href="?page={{page_num}}">{{page_num}} <span class="sr-only"></span></a>
+          </li>
+
+        {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %}
+
+        <li class="page-item">
+            <a class="page-link" href="?page={{page_num}}">
+                {{page_num}}
+            </a>
+        </li>
+        {% endif %}
+        {% endfor %}
+
+        <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+            <a class="page-link" href="{{next_page_url}}">Next</a>
+        </li>
+    </ul>
+</nav>
 {% endblock %}

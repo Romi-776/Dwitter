@@ -28,8 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
             hits the save changes button
         */
         saveChangesButton.onclick = () => {
-            alert('saving your changes')
-
             // changing the post's description from html
             var data = modalBodyTextarea.value
             document.querySelector(`#post-${post_no}`).innerHTML = data
