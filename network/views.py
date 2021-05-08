@@ -181,12 +181,13 @@ def profile(request):
     followers = User.objects.get(username=request.user.username).my_followers.count()
     following = User.objects.get(username=request.user.username).my_following.count()
 
+    user = User.objects.get(username=request.user.username)
+    
     return render(
         request,
         "network/profile.html",
         {
-            "username": request.user.username,
-            "email": request.user.email,
+            "user": user,
             "posts": posts,
             "followers": followers,
             "following": following,

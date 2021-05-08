@@ -8,6 +8,16 @@ class User(AbstractUser):
     pass
 
 
+class Profile(models.Model):
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name="user_profile"
+    )
+    profile_pic = models.ImageField(default="default.jpg", upload_to="profile_pics")
+
+    def __str__(self):
+        return f"{self.user.username} Profile"
+
+
 class post(models.Model):
     """Model class for POST related details"""
 
