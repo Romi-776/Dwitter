@@ -1,6 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+<!-- Background image div with Profile Pic as img -->
 <div
     style="background-image: url('https://www.teahub.io/photos/full/187-1878181_hawaii-beach-pictures-wallpapers-backgrounds-for-pc-4k.jpg');background-size:cover;background-position:center; height:200px; ;padding-top:123px;">
     <img src="{{user.user_profile.profile_pic.url}}"
@@ -8,15 +9,22 @@
         alt="Profile Pic of {{user.username}}" title="{{user.username}}">
 </div>
 
+<!-- Showing user's details -->
 <div class="user-details" style="margin-left: 5%; margin-top: 55px;float: left;">
     <div id="name-and-username">
         <h4>{{user.username}}</h4>
         <h5 class="text-muted">@{{user.username}}</h5>
     </div>
+
+    <!-- User's Description -->
     <div class="status">
         Head Of Music: UPPERROOM RECORDS
     </div>
+
+    <!-- When the user joined -->
     <p class="text-muted fa" style="margin-top: 12px;"><i class="fa fa-calendar"></i> Joined June 2020</p>
+
+    <!-- User's Followers and Following Count -->
     <div id="follow-details">
         <h6 style="text-align:left;float:left;margin-right: 10px;"> <span id="followers">{{followers}}</span> <span
                 class="text-muted">Followers</span></h6>
@@ -24,6 +32,7 @@
     </div>
 </div>
 
+<!-- Follow-Unfollow Button for others -->
 {% if request.user.username != username and user.is_authenticated %}
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
     <form action="{% url 'follow_unfollow' %}" method="post">
@@ -36,6 +45,7 @@
 </div>
 {% endif %}
 
+<!-- A line to separate the User details form his posts -->
 <hr style="margin-top: 28%;border: 2px solid black;">
 
 <div class="my-posts">

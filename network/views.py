@@ -21,13 +21,17 @@ def index(request):
     all_posts = post.objects.order_by("posted_on").reverse()
 
     posts_and_likes = []
+    # attatching posts and likes on each post into single list
     for p in all_posts:
         posts_and_likes.append((p, likes.objects.filter(on_which_post=p).count()))
 
+    # getting posts that need to be shown on a single page.
+    """Currently showing only 1 post per page but needs to be changed to 10"""
     paginator = Paginator(posts_and_likes, 1)
     page_number = request.GET.get("page", 1)
     page = paginator.get_page(page_number)
 
+    # getting info that the current page have next or previous page or not
     if page.has_next():
         next_url = f"?page={page.next_page_number()}"
     else:
@@ -182,7 +186,7 @@ def profile(request):
     following = User.objects.get(username=request.user.username).my_following.count()
 
     user = User.objects.get(username=request.user.username)
-    
+    print(user.user_profile.profile_pic.url)
     return render(
         request,
         "network/profile.html",
@@ -243,7 +247,6 @@ def others_profile(request, user_id):
         if str(i.followers) == str(user.username) and str(i.following) == str(
             request.user.username
         ):
-
             # then the button should contain the unfollow text
             follow_unfollow = "unfollow"
             style = "danger"
@@ -266,8 +269,7 @@ def others_profile(request, user_id):
             request,
             "network/profile.html",
             {
-                "username": user.username,
-                "email": user.email,
+                "user": user,
                 "posts": posts,
                 "followers": followers,
                 "following": following,

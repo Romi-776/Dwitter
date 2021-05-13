@@ -66,7 +66,7 @@
                 {{post.1}}
             </form>
         </div>
-        <!-- Date when the post is posted -->
+        <!-- Date when the post is posted or edited -->
         <div class="card-footer text-muted">
             {{post.0.posted_on}}
         </div>
@@ -80,7 +80,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -101,6 +101,7 @@
     </div>
 </div>
 
+<!-- Navigation bar to go back and forth between different pages-->
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
