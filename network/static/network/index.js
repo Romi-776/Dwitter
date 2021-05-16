@@ -32,19 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
             var data = modalBodyTextarea.value
             document.querySelector(`#post-${post_no}`).innerHTML = data
 
-            // getting the current date time
-            var today = new Date();
-            var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();;
-            var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-            var dateTime = date + ' ' + time;
-
-
             // updating it in the db
             fetch('/update_post', {
                 method: 'POST',
                 body: JSON.stringify({
                     post_id : `${post_no}`,
-                    updated_on: `${dateTime}`,
                     updated_description: `${data}`
                 })
             })

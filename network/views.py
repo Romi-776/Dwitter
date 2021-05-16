@@ -398,7 +398,7 @@ def update_post(request):
 
     # getting the post that needs to be updated
     updated_post = post.objects.filter(pk=int(data.get("post_id"))).update(
-        description=data.get("updated_description"), posted_on=data.get("updated_on")
+        description=data.get("updated_description")
     )
 
     # post is updated, just confirming
