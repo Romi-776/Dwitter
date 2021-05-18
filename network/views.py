@@ -161,10 +161,13 @@ def register(request):
                 request, "network/register.html", {"message": "Passwords must match!"}
             )
 
-        # Attempt to create new user
+        # Attempt to create new user and its corresponding profile
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+            
+            new_user_profile = Profile.objects.create(user=user)
+            new_user_profile.save()
         except IntegrityError:
             return render(
                 request, "network/register.html", {"message": "Username already taken."}
@@ -186,7 +189,7 @@ def profile(request):
     following = User.objects.get(username=request.user.username).my_following.count()
 
     user = User.objects.get(username=request.user.username)
-    print(user.user_profile.profile_pic.url)
+
     return render(
         request,
         "network/profile.html",

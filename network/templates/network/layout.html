@@ -57,7 +57,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'index' %}">All Posts</a>
                     </li>
-                    {% if user.is_authenticated %}
+                    {% if request.user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'posts_of_following' %}">Following</a>
                     </li>
