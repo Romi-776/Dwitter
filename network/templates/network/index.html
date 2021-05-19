@@ -37,7 +37,7 @@
             <!-- Edit button for posts that can only be seen by the owner of the post -->
             {% if u_name == request.user.username %}
             <span class="float-right">
-                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#postModal"
                     data-bs-post_owner="{{u_name}}" data-bs-post_no="{{post.0.pk}}"
                     data-bs-post="{{post.0.description}}">Edit</button>
             </span>
@@ -76,11 +76,11 @@
     {% endfor %}
 
     <!-- Editing of the post will be done inside a MODAL -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Post</h5>
+                    <h5 class="modal-title" id="postModal">Edit Post</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -112,21 +112,19 @@
 
         <li class="page-item active" aria-current="page">
             <a class="page-link" href="?page={{page_num}}">{{page_num}} <span class="sr-only"></span></a>
-          </li>
+        </li>
 
-        {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %}
-
-        <li class="page-item">
+        {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %} <li class="page-item">
             <a class="page-link" href="?page={{page_num}}">
                 {{page_num}}
             </a>
-        </li>
-        {% endif %}
-        {% endfor %}
+            </li>
+            {% endif %}
+            {% endfor %}
 
-        <li class="page-item {% if not next_page_url %} disabled {% endif %}">
-            <a class="page-link" href="{{next_page_url}}">Next</a>
-        </li>
+            <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                <a class="page-link" href="{{next_page_url}}">Next</a>
+            </li>
     </ul>
 </nav>
 {% endblock %}
