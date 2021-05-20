@@ -45,78 +45,59 @@
 </div>
 {% endif %}
 
+<!-- Button to edit the profile of the currently logged in user -->
 {% if request.user.username == user.username and request.user.is_authenticated %}
-<div class="follow-unfollow" style="float: right;margin-top: 20px;">
+<div style="float: right;margin-top: 20px;">
     <button class="btn btn-outline-primary" id="update-profile" data-bs-toggle="modal" data-bs-target="#profileModal"
         style="border-radius: 5px 23px;">Edit profile</button>
 </div>
 
 <!-- Editing of the Profile will be done inside a MODAL -->
-<div class="modal hide fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="profileModalLabel">Edit Profile</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form>
+            <form>
+                <div class="modal-body">
+                    <!-- Button to change the background image -->
+                    <div>
+                        <button name="change-background" id="change-background" class="btn btn-primary btn-sm"
+                            style="float: right; border-left: 1px solid white; border-bottom: 1px solid white;">
+                            Change Background
+                        </button>
+                    </div>
+                    
+                    <!-- Showing the current profile pic and background image -->
                     <div class="mb-3">
-                        <div
+                        <div id="background_profile"
                             style="background-image: url('https://www.teahub.io/photos/full/187-1878181_hawaii-beach-pictures-wallpapers-backgrounds-for-pc-4k.jpg');background-size:cover;background-position:center; height:150px; ;padding-top:95px;">
-                            <img src="{{user.user_profile.profile_pic.url}}" id="profile_pic"
-                                style="margin-left: 5%; height:95px;width: 95px; border-radius: 50%; border: 4px solid #ffffff;"
-                                alt="Profile Pic of {{user.username}}" title="{{user.username}}">
-                        </div>
-                        <!-- This modal button will open a modal that will change the profile pic or background image-->
-                        <div style="float:right;margin-top: 5px;">
-                            <button class="btn btn-outline-primary" id="change-profile-pic" data-bs-toggle="modal"
-                                data-bs-target="#profilePicModal" style="border-radius: 5px 23px;">Edit
-                                Pictures</button>
+
+                            <!-- Button to change Profile pic -->
+                            <div class="wrapper" style='background: url("{{user.user_profile.profile_pic.url}}");'
+                                alt="Change Profile" title="Change Profile">
+                                <input type="file" id="profile_img" name="profile_img" accept="image/*">
+                            </div>
+                            <input type="file" hidden id="background_img" name="background_img" accept="image/*"><br>
                         </div>
 
+                        <!-- Input to change the name of the user-->
                         <label style="margin-top: 30px;" for="Name_here" class="col-form-label">Name</label>
                         <input class="form-control" id="Name_here" value="{{user.username}}"></input>
 
+                        <!-- Input to change the bio of the user-->
                         <label for="Bio_here" class="col-form-label">Bio</label>
                         <textarea class="form-control" id="Bio_here" value=""></textarea>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id='close-modal' class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="save-changes" class="btn btn-primary">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Modal to change the profile and background image of a user -->
-<div class="modal hide fade" id="profilePicModal" tabindex="-1" aria-labelledby="profilePicModal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="profilePicModal">Change Image(s)</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <form action="">
-                            <label for="profile_img" class="col-form-label">Change Profile pic:</label><br>
-                            <input type="file" id="profile_img" name="profile_img" accept="image/*">
-
-                            <label for="background_img" class="col-form-label">Change Background image:</label>
-                            <input type="file" id="background_img" name="background_img" accept="image/*">
-                        </form>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id='close-modal' class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="save-changes" class="btn btn-primary">Save Changes</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id='close-modal' class="btn btn-secondary"
+                        data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="save-changes" type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -153,5 +134,5 @@
         </div>
         {% endfor %}
     </div>
-    {% endblock %}
 </div>
+{% endblock %}

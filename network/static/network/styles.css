@@ -4,3 +4,52 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.wrapper {
+  height: 95px;
+  width: 95px;
+  position: relative;
+  margin-left: 5%;
+  border: 4px solid white;
+  border-radius: 50%;
+  background-position: center !important;
+  background-size: cover !important;
+  overflow: hidden;
+}
+
+#profile_img {
+  position: absolute;
+  bottom: 0;
+  outline: none;
+  color: transparent;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px 33px;
+  cursor: pointer;
+  transition: 0.5s;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+#profile_img::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+#profile_img::before {
+  content: "\f030";
+  font-family: fontAwesome;
+  font-size: 20px;
+  color: #fff;
+  display: inline-block;
+  -webkit-user-select: none;
+}
+
+#profile_img::after {
+  content: 'Update';
+  font-family: 'arial';
+  font-weight: bold;
+  color: #fff;
+  display: block;
+  top: 54px;
+  font-size: 7px;
+  position: absolute;
+}
