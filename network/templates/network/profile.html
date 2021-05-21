@@ -37,7 +37,7 @@
 <div class="follow-unfollow" style="float: right;margin-top: 20px;">
     <form action="{% url 'follow_unfollow' %}" method="post">
         {% csrf_token %}
-        <input type="text" value="{{user.username}}" hidden name="username">
+        <input type="text" value="{{user.username}}" style="display: none;" name="username">
         <button class="btn btn-outline-{{follow_button_style}}" name="follow_unfollow_button"
             value="{{follow_button_text}}" type="submit" id="follow-button"
             style="border-radius: 5px 23px;">{{follow_button_text}}</button>
@@ -63,24 +63,25 @@
             <form>
                 <div class="modal-body">
                     <!-- Button to change the background image -->
-                    <div>
-                        <button name="change-background" id="change-background" class="btn btn-primary btn-sm"
-                            style="float: right; border-left: 1px solid white; border-bottom: 1px solid white;">
-                            Change Background
-                        </button>
-                    </div>
-                    
+
+                    <label for="background_img"
+                        style="position: relative; cursor: pointer; float: right;background-color: rgb(0, 166, 255);border-left: 2px solid white;border-bottom: 2px solid white;">
+                        Change Background</label>
+                    <input type="file" multiple='false' style="display: none;" id="background_img" name="background_img"
+                        accept="image/*" onchange="showPreview(event);">
+
                     <!-- Showing the current profile pic and background image -->
                     <div class="mb-3">
                         <div id="background_profile"
                             style="background-image: url('https://www.teahub.io/photos/full/187-1878181_hawaii-beach-pictures-wallpapers-backgrounds-for-pc-4k.jpg');background-size:cover;background-position:center; height:150px; ;padding-top:95px;">
 
+
                             <!-- Button to change Profile pic -->
-                            <div class="wrapper" style='background: url("{{user.user_profile.profile_pic.url}}");'
+                            <div class="wrapper" style='background-image: url("{{user.user_profile.profile_pic.url}}");'
                                 alt="Change Profile" title="Change Profile">
-                                <input type="file" id="profile_img" name="profile_img" accept="image/*">
+                                <input type="file" onchange="showImage(event)" id="profile_img" name="profile_img"
+                                    accept="image/*">
                             </div>
-                            <input type="file" hidden id="background_img" name="background_img" accept="image/*"><br>
                         </div>
 
                         <!-- Input to change the name of the user-->

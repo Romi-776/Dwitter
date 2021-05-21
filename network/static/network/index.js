@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    document.getElementById("change-background").addEventListener('click', () => {
-        alert('button is clicked')
-        document.getElementById('background_img').click()
-        return false
-    })
 
     // Modal related event listener which will work only if user
     // wants to edit his post
@@ -78,4 +73,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     })
 })
+
+
+// function to change the background image of the user
+function showPreview(event) {
+
+    if (event.target.files.length > 0) {
+        // my div which will show an image in background
+        var img = document.getElementById('background_profile')
+
+        // image that I want to show in background which I had chosen 
+        const file = event.target.files[0];
+
+        // changing the chosen image into its path url
+        const src = URL.createObjectURL(file);
+
+        // inserting the url into the div background image
+        img.style.backgroundImage = `url(${src})`;
+    }
+}
+
+// function to change the profile pic of the user
+function showImage(event) {
+
+    if (event.target.files.length > 0) {
+        // my div which will show an image in background
+        var img = document.getElementsByClassName('wrapper')
+
+        // image that I want to show in background which I had chosen 
+        const file = event.target.files[0];
+
+        // changing the chosen image into its path url
+        const src = URL.createObjectURL(file);
+
+        // inserting the url into the div background image
+        img[0].style.backgroundImage = `url(${src})`;
+    }
+}
 
