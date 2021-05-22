@@ -3,7 +3,7 @@
 {% block body %}
 <!-- Background image div with Profile Pic as img -->
 <div
-    style="background-image: url('https://www.teahub.io/photos/full/187-1878181_hawaii-beach-pictures-wallpapers-backgrounds-for-pc-4k.jpg');background-size:cover;background-position:center; height:200px; ;padding-top:123px;">
+    style="background-image: url('{{user.user_profile.background_img.url}}');background-size:cover;background-position:center; height:200px; ;padding-top:123px;">
     <img src="{{user.user_profile.profile_pic.url}}"
         style="margin-left: 5%; height:130px;width: 130px; border-radius: 50%; border: 4px solid #ffffff;"
         alt="Profile Pic of {{user.username}}" title="{{user.username}}">
@@ -73,7 +73,7 @@
                     <!-- Showing the current profile pic and background image -->
                     <div class="mb-3">
                         <div id="background_profile"
-                            style="background-image: url('https://www.teahub.io/photos/full/187-1878181_hawaii-beach-pictures-wallpapers-backgrounds-for-pc-4k.jpg');background-size:cover;background-position:center; height:150px; ;padding-top:95px;">
+                            style="background-image: url('{{user.user_profile.background_img.url}}');background-size:cover;background-position:center; height:150px; ;padding-top:95px;">
 
 
                             <!-- Button to change Profile pic -->
