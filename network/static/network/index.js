@@ -50,30 +50,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
-
-    var profileModal = document.getElementById('profileModal')
-    profileModal.addEventListener('show.bs.modal', function (event) {
-
-        // Button that triggered the modal
-        var button = event.relatedTarget
-
-        // Extract info from data-bs-* attributes
-
-
-    })
-
-    var profilePicModal = document.getElementById('profilePicModal')
-    profilePicModal.addEventListener('show.bs.modal', function (event) {
-
-        // Button that triggered the modal
-        var button = event.relatedTarget
-
-        // Extract info from data-bs-* attributes
-
-
-    })
 })
 
+
+function update_profile(event) {
+    alert("Profile is updating")
+    // Button that triggered the modal
+    var button = document.querySelector("#save-changes")
+
+    // getting the user whose profile is being updated
+    var user = button.dataset.user
+
+    // get all the info. of this user like
+    // images and description
+    // bg_img and profile_pic will contain blob url something like the below one
+    // url("blob%3Ahttp%3A/127.0.0.1%3A8000/9924a072-76c6-45d3-82c6-1bdbe4fda8e6")
+    //var bg_img = document.getElementById('background_profile').style.backgroundImage
+    //var profile_pic = document.getElementsByClassName('wrapper')[0].style.backgroundImage
+    var name = document.getElementById("Name_here").value
+    var bio = document.getElementById("Bio_here").value
+
+
+    document.getElementById('change_profile_pic').click()
+    // updating it in the db
+    fetch('/update_profile', {
+        method: 'POST',
+        body: JSON.stringify({
+            name: `${name}`,
+            bio: `${bio}`,
+            user: `${user}`,
+        })
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+        })
+
+    document.querySelector('#close-modal').click()
+    return true;
+}
 
 // function to change the background image of the user
 function showPreview(event) {

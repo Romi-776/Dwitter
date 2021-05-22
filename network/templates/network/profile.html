@@ -67,8 +67,12 @@
                     <label for="background_img"
                         style="position: relative; cursor: pointer; float: right;background-color: rgb(0, 166, 255);border-left: 2px solid white;border-bottom: 2px solid white;">
                         Change Background</label>
-                    <input type="file" multiple='false' style="display: none;" id="background_img" name="background_img"
-                        accept="image/*" onchange="showPreview(event);">
+                    <form action="update_bg_img" enctype="multipart/form-data" method="POST">
+                        {% csrf_token %}
+                        <input type="file" multiple='false' style="display: none;" id="background_img"
+                            name="background_img" accept="image/*" onchange="showPreview(event);">
+                        <button type="submit" id="change_bg_img" style="display: none;"></button>
+                    </form>
 
                     <!-- Showing the current profile pic and background image -->
                     <div class="mb-3">
@@ -79,8 +83,12 @@
                             <!-- Button to change Profile pic -->
                             <div class="wrapper" style='background-image: url("{{user.user_profile.profile_pic.url}}");'
                                 alt="Change Profile" title="Change Profile">
-                                <input type="file" onchange="showImage(event)" id="profile_img" name="profile_img"
-                                    accept="image/*">
+                                <form action="update_profile_pic" enctype="multipart/form-data" method="POST">
+                                    {% csrf_token %}
+                                    <input type="file" onchange="showImage(event)" id="profile_img" name="profile_img"
+                                        accept="image/*">
+                                    <button type="submit" id="change_profile_pic" style="display: none;"></button>
+                                </form>
                             </div>
                         </div>
 
@@ -96,7 +104,8 @@
                 <div class="modal-footer">
                     <button type="button" id='close-modal' class="btn btn-secondary"
                         data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="save-changes" type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="button" data-user="{{request.user}}" id="save-changes" type="submit"
+                        class="btn btn-primary" onclick="update_profile(event)">Save Changes</button>
                 </div>
             </form>
         </div>

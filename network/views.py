@@ -165,7 +165,7 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
-            
+
             new_user_profile = Profile.objects.create(user=user)
             new_user_profile.save()
         except IntegrityError:
@@ -406,3 +406,45 @@ def update_post(request):
 
     # post is updated, just confirming
     return JsonResponse({"Message": "Post Updated!"}, status=201)
+
+
+@csrf_exempt
+@login_required
+def update_profile(request):
+    # checking that the request is sent via post
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required"}, status=400)
+
+    # getting the data that needs to be updated
+    data = json.loads(request.body)
+
+    # getting the user whose profile  needs to be updated
+    user = User.objects.get(username=data.get("user"))
+
+    # getting that user's profile
+    profile_to_update = Profile.objects.filter(user=user)
+
+    print(data.get("profile_pic"))
+    print(data.get("bg_img"))
+    # updating the profile
+    profile_to_update.update(
+        profile_pic=data.get("profile_pic"), background_img=data.get("bg_img")
+    )
+
+    # if the user changed his username
+    changed_name = data.get("name")
+
+    # change the name of that user
+    if changed_name != user.username:
+        user.update(username=changed_name)
+
+    # Profile is updated, just confirming
+    return JsonResponse({"Message": "Profile Updated!"}, status=201)
+
+@login_required
+def update_profile_pic(request):
+    if request.method == 'POST':
+        print(request.FILES)
+        print(request.POST)
+
+        return HttpResponseRedirect(reverse("profile"))
