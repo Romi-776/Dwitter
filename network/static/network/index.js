@@ -1,5 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    $(function () {
+        $("i").click(function () {
+            $("i,span").toggleClass("press", 1000);
+        });
+    });
 
     // Modal related event listener which will work only if user
     // wants to edit his post
