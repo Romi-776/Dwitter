@@ -67,26 +67,42 @@ def posts_of_following(request):
     # storing the names of the people that i'm following
     my_following_names = []
     for i in my_following:
-        my_following_names.append(i.followers)
-
-    # getting all the posts of the people that i'm following
-    all_posts = (
-        post.objects.filter(posted_by__in=my_following_names)
-        .order_by("posted_on")
-        .reverse()
-    )
-
+        my_following_names.append(User.objects.get(username=i.followers))
     # getting the likes count on that posts
     posts_and_likes = []
-    for p in all_posts:
-        posts_and_likes.append((p, likes.objects.filter(on_which_post=p).count()))
+
+    for user in my_following_names:
+        this_users_post = post.objects.filter(posted_by=user)
+        for each_post in this_users_post:
+            posts_and_likes.append(
+                (each_post, likes.objects.filter(on_which_post=each_post).count())
+            )
+
+    # getting posts that need to be shown on a single page.
+    """Currently showing only 1 post per page but needs to be changed to 10"""
+    paginator = Paginator(posts_and_likes, 1)
+    page_number = request.GET.get("page", 1)
+    page = paginator.get_page(page_number)
+
+    # getting info that the current page have next or previous page or not
+    if page.has_next():
+        next_url = f"?page={page.next_page_number()}"
+    else:
+        next_url = ""
+
+    if page.has_previous():
+        prev_url = f"?page={page.previous_page_number()}"
+    else:
+        prev_url = ""
 
     return render(
         request,
         "network/index.html",
         {
-            "all_posts": posts_and_likes,
+            "page": page,
             "on_index_page": False,
+            "next_page_url": next_url,
+            "prev_page_url": prev_url,
         },
     )
 
@@ -424,8 +440,6 @@ def update_profile(request):
     # getting that user's profile
     profile_to_update = Profile.objects.filter(user=user)
 
-    print(data.get("profile_pic"))
-    print(data.get("bg_img"))
     # updating the profile
     profile_to_update.update(
         profile_pic=data.get("profile_pic"), background_img=data.get("bg_img")
@@ -441,10 +455,9 @@ def update_profile(request):
     # Profile is updated, just confirming
     return JsonResponse({"Message": "Profile Updated!"}, status=201)
 
+
 @login_required
 def update_profile_pic(request):
-    if request.method == 'POST':
-        print(request.FILES)
-        print(request.POST)
+    if request.method == "POST":
 
         return HttpResponseRedirect(reverse("profile"))

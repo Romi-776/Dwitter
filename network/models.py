@@ -22,6 +22,8 @@ class Profile(models.Model):
         default="Default_background.jpg", upload_to="bg_img"
     )
 
+    bio = models.TextField(null=False, default="")
+
     def __str__(self):
         return f"{self.user.username} Profile"
 
