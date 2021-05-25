@@ -95,6 +95,20 @@ function showImage(event) {
     }
 }
 
+// changing the likes count only in the front end
+function like_dislike(event) {
+    var count = parseInt(event.target.innerText)
+    if (event.target.getAttribute('data-liked') === 'true') {
+        event.target.setAttribute('data-liked', 'false')
+        count -= 1
+    }
+    else {
+        count += 1
+        event.target.setAttribute('data-liked', 'true')
+    }
+
+    event.target.innerText = count
+}
 
 /* WILL IMPLEMENT THIS LATER */
 /*

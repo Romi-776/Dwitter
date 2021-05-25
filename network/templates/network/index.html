@@ -52,18 +52,24 @@
             <!-- Like button functioning 
                 <form action="{% url 'like_post' %}" method="POST" onclick="submit()" style="height: 25px; width: 30px;">
                 using the below one instead of the above one
-            -->
-            <form onsubmit="event.preventDefault()" method="POST" style="height: 25px; width: 30px;">
-                {% csrf_token %}
-                <input type="text" value="{{post.0.id}} " hidden name="this_post">
-                <input type="text" name="liked_or_not" value="{{like_text}}" hidden id="liked_or_not">
-                <div id="div">
-                    <i id="i"></i>
-                    <span id="span">liked!</span>
-                </div>
+                <form onsubmit="event.preventDefault()" method="POST" style="height: 25px; width: 30px;">
+                    {% csrf_token %}
+                    <input type="text" value="{{post.0.id}} " hidden name="this_post">
+                    <input type="text" name="liked_or_not" value="{{like_text}}" hidden id="liked_or_not">
+                    <div id="div">
+                        <i id="i"></i>
+                        <span id="span">liked!</span>
+                    </div>
+                    <span id="likes_count">
+                        <!-- Likes count 
+                        {{post.1}}
+                    </span>
+                </form>
+            --> 
+            <span id="likes_count" onclick="like_dislike(event)" data-liked="false" style="float: left;cursor: pointer;">
                 <!-- Likes count -->
                 {{post.1}}
-            </form>
+            </span>
         </div>
         <!-- Date when the post is posted or edited -->
         <div class="card-footer text-muted">
