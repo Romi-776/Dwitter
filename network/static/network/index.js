@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     $(function () {
         $("i").click(function () {
-            $("i,span").toggleClass("press", 1000);
+            $("i,#span").toggleClass("press", 1000);
         });
     });
 
@@ -98,20 +98,22 @@ function showImage(event) {
 // changing the likes count 
 function like_dislike(event) {
     var like_post = true
-    var count = parseInt(event.target.innerText)
+    var count = parseInt(document.getElementById('likes_count').innerText)
 
     // changing count on frontend
     if (event.target.getAttribute('data-liked') === 'true') {
         event.target.setAttribute('data-liked', 'false')
+        document.getElementById('i').style.color = '#aaa'
         count -= 1
     }
     else {
+        document.getElementById('i').style.color = '#e23b3b'
         count += 1
         event.target.setAttribute('data-liked', 'true')
         like_post = false
     }
 
-    event.target.innerText = count
+    document.getElementById('likes_count').innerText = count
 
     // updating count in the db
     fetch('/like_post', {

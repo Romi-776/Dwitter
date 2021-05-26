@@ -20,6 +20,9 @@ def index(request):
     # sorted according to recently posted
     all_posts = post.objects.order_by("posted_on").reverse()
 
+    posts_liked_by_this_user = [
+        post.on_which_post.id for post in likes.objects.filter(who=request.user)
+    ]
     posts_and_likes = []
     # attatching posts and likes on each post into single list
     for p in all_posts:
@@ -50,6 +53,7 @@ def index(request):
             "on_index_page": True,
             "next_page_url": next_url,
             "prev_page_url": prev_url,
+            "my_liked_posts": posts_liked_by_this_user,
         },
     )
 

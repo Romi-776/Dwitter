@@ -57,19 +57,25 @@
                     <input type="text" value="{{post.0.id}} " hidden name="this_post">
                     <input type="text" name="liked_or_not" value="{{like_text}}" hidden id="liked_or_not">
                     <div id="div">
-                        <i id="i"></i>
-                        <span id="span">liked!</span>
+                        
                     </div>
                     <span id="likes_count">
                         <!-- Likes count 
                         {{post.1}}
                     </span>
                 </form>
-            --> 
-            <span id="likes_count" onclick="like_dislike(event)" data-post_no="{{post.0.pk}}" data-liked="false" style="float: left;cursor: pointer;">
-                <!-- Likes count -->
-                {{post.1}}
-            </span>
+            -->
+            <div id="div" style="float: left; margin-right: 5px;">
+                {% if post.0.pk in my_liked_posts %}
+                <i id="i" onclick="like_dislike(event)" style="color: #e23b3b;" data-post_no="{{post.0.pk}}" data-liked="true"></i>
+                {% else %}
+                <i id="i" onclick="like_dislike(event)" style="color:#aaa;" data-post_no="{{post.0.pk}}" data-liked="false"></i>
+                {% endif %}
+                <p id="likes_count" style="float: right; cursor: pointer; margin-left: 8px;">
+                    <!-- Likes count -->
+                    {{post.1}}
+                </p>
+            </div>
         </div>
         <!-- Date when the post is posted or edited -->
         <div class="card-footer text-muted">
