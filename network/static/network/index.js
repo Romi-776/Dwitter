@@ -95,9 +95,12 @@ function showImage(event) {
     }
 }
 
-// changing the likes count only in the front end
+// changing the likes count 
 function like_dislike(event) {
+    var like_post = true
     var count = parseInt(event.target.innerText)
+
+    // changing count on frontend
     if (event.target.getAttribute('data-liked') === 'true') {
         event.target.setAttribute('data-liked', 'false')
         count -= 1
@@ -105,9 +108,26 @@ function like_dislike(event) {
     else {
         count += 1
         event.target.setAttribute('data-liked', 'true')
+        like_post = false
     }
 
     event.target.innerText = count
+
+    // updating count in the db
+    fetch('/like_post', {
+        method: 'POST',
+        body: JSON.stringify({
+            post_id: `${parseInt(event.target.getAttribute('data-post_no'))}`,
+            like_this: `${like_post}`
+        })
+    })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result)
+        })
+
+    document.querySelector('#close-modal').click()
+    return true;
 }
 
 /* WILL IMPLEMENT THIS LATER */

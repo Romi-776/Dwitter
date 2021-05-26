@@ -371,13 +371,19 @@ def follow_unfollow(request):
             )
 
 
+@login_required
+@csrf_exempt
 def like_post(request):
     """Like Unlike the post """
 
     # checking that the user is authenticated and the request is from genuine place
-    if request.user.is_authenticated and request.method == "POST":
+    if request.method == "POST":
+
+        # getting the data that needs to be updated
+        data = json.loads(request.body)
+
         # getting the id of the post on which the user want to like the post
-        post_id = request.POST["this_post"]
+        post_id = data.get("post_id")
         this_post = post.objects.get(pk=post_id)
 
         # if the post is already liked then we're un liking the post otherwise
@@ -391,18 +397,17 @@ def like_post(request):
                 )
                 new_like.save()
             except IntegrityError:
-                return HttpResponse(
-                    "Something went wrong while creating a new like instance"
+                return JsonResponse(
+                    {
+                        "error": "Something went wrong while creating a new like instance"
+                    },
+                    status=400,
                 )
 
         # returning to the index page
-        return HttpResponseRedirect(reverse("index"))
+        return JsonResponse({"Message": "Like count Updated!"}, status=201)
     else:
-        return render(
-            request,
-            "network/login.html",
-            {"message": "You should Login first!"},
-        )
+        return JsonResponse({"error": "POST request required"}, status=400)
 
 
 @csrf_exempt

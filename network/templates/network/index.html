@@ -66,7 +66,7 @@
                     </span>
                 </form>
             --> 
-            <span id="likes_count" onclick="like_dislike(event)" data-liked="false" style="float: left;cursor: pointer;">
+            <span id="likes_count" onclick="like_dislike(event)" data-post_no="{{post.0.pk}}" data-liked="false" style="float: left;cursor: pointer;">
                 <!-- Likes count -->
                 {{post.1}}
             </span>

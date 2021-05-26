@@ -13,9 +13,9 @@ urlpatterns = [
     path("share_post", views.share_post, name="share_post"),
     path("<int:user_id>", views.others_profile, name="others_profile"),
     path("follow_unfollow", views.follow_unfollow, name="follow_unfollow"),
-    path("like_post", views.like_post, name="like_post"),
     path("posts_of_following", views.posts_of_following, name="posts_of_following"),
     # API Routes
+    path("like_post", views.like_post, name="like_post"),
     path("update_post", views.update_post, name="update_post"),
     path("update_profile", views.update_profile, name="update_profile"),
     path("update_profile_pic", views.update_profile_pic, name="update_profile_pic"),
