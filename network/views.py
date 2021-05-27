@@ -20,9 +20,11 @@ def index(request):
     # sorted according to recently posted
     all_posts = post.objects.order_by("posted_on").reverse()
 
-    posts_liked_by_this_user = [
-        post.on_which_post.id for post in likes.objects.filter(who=request.user)
-    ]
+    posts_liked_by_this_user = []
+    if request.user.is_authenticated:
+        posts_liked_by_this_user = [
+            post.on_which_post.id for post in likes.objects.filter(who=request.user)
+        ]
     posts_and_likes = []
     # attatching posts and likes on each post into single list
     for p in all_posts:
@@ -30,7 +32,7 @@ def index(request):
 
     # getting posts that need to be shown on a single page.
     """Currently showing only 1 post per page but needs to be changed to 10"""
-    paginator = Paginator(posts_and_likes, 1)
+    paginator = Paginator(posts_and_likes, 10)
     page_number = request.GET.get("page", 1)
     page = paginator.get_page(page_number)
 
@@ -133,7 +135,11 @@ def login_view(request):
                 {"message": "Invalid username and/or password."},
             )
     else:
-        return render(request, "network/login.html")
+        message = ''
+
+        return render(request, "network/login.html", {
+            'message': message
+        })
 
 
 def logout_view(request):

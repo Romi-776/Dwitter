@@ -132,6 +132,12 @@ function like_dislike(event) {
     return true;
 }
 
+
+function go_to_login_page() {
+    location.href = '/login'
+    return true;
+}
+
 /* WILL IMPLEMENT THIS LATER */
 /*
 function update_profile(event) {

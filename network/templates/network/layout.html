@@ -39,7 +39,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
-    <body class="col-lg-7" style="margin: auto;">
+    <body style="margin: auto;" class=" col-lg-6">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" style="padding-left: 3px;line-height: 15px;" href="{% url 'index' %}">
                 <svg viewBox="0 0 24 24" id="twitter-icon" style="height: 25px;"
@@ -53,36 +53,36 @@
                 Dwitter
             </a>
 
-            <div>
-                <ul class="navbar-nav mr-auto">
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile'%}"><strong>{{ request.user.username }}</strong></a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'index' %}">All Posts</a>
-                    </li>
-                    {% if request.user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'posts_of_following' %}">Following</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                    </li>
-                    {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'register' %}">Register</a>
-                    </li>
-                    {% endif %}
-                </ul>
+
+            <div class="navbar-nav nav-pills navbar-light bg-light" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                {% if user.is_authenticated %}
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="{% url 'profile'%}" role="tab"
+                    aria-controls="v-pills-home" aria-selected="true"><strong>{{ request.user.username }}</strong></a>
+                {% endif %}
+
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="{% url 'index' %}" role="tab"
+                    aria-controls="v-pills-profile" aria-selected="false">All Posts</a>
+
+                {% if request.user.is_authenticated %}
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="{% url 'posts_of_following' %}"
+                    role="tab" aria-controls="v-pills-home" aria-selected="false">Following</a>
+
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="{% url 'logout' %}" role="tab"
+                    aria-controls="v-pills-messages" aria-selected="false">Log Out</a>
+
+                {% else %}
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="{% url 'login' %}" role="tab"
+                    aria-controls="v-pills-settings" aria-selected="false">Log In</a>
+
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="{% url 'register' %}" role="tab"
+                    aria-controls="v-pills-settings" aria-selected="false">Register</a>
+
+                {% endif %}
+
             </div>
         </nav>
 
-        <div class="body">
+        <div >
             {% block body %}
             {% endblock %}
         </div>
