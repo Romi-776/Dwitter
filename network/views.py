@@ -68,7 +68,13 @@ def posts_of_following(request):
 
     # checking that there's at least one person that i'm following
     if not len(my_following):
-        return HttpResponse("You aren't following anyone yet!")
+        return render(
+            request,
+            "network/index.html",
+            {
+                "on_index_page": False,
+            },
+        )
 
     # storing the names of the people that i'm following
     my_following_names = []
@@ -135,11 +141,9 @@ def login_view(request):
                 {"message": "Invalid username and/or password."},
             )
     else:
-        message = ''
+        message = ""
 
-        return render(request, "network/login.html", {
-            'message': message
-        })
+        return render(request, "network/login.html", {"message": message})
 
 
 def logout_view(request):

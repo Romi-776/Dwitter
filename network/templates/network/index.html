@@ -93,8 +93,44 @@
         </div>
     </div>
     {% empty %}
-    <h2 class="text-center">No Post Shared Yet</h2>
+    {% if on_index_page %}
+    <h2 class="text-center">No Post is shared yet</h2>
+    {% else %}
+    <h2 class="text-center" style="color: crimson;">Please Follow Someone to see their posts</h2>
+    {% endif %}
     {% endfor %}
+
+    <!-- Navigation bar to go back and forth between different pages-->
+    {% if page.object_list %}
+    <nav aria-label="Page navigation example" style="display: block;">
+    {% else %}
+    <nav aria-label="Page navigation example" style="display: none;">
+    {% endif %}
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                <a class="page-link" href="{{prev_page_url}}" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            {% for page_num in page.paginator.page_range %}
+            {% if page.number == page_num %}
+
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="?page={{page_num}}">{{page_num}} <span class="sr-only"></span></a>
+            </li>
+
+            {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %} <li class="page-item">
+                <a class="page-link" href="?page={{page_num}}">
+                    {{page_num}}
+                </a>
+                </li>
+                {% endif %}
+                {% endfor %}
+
+                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                    <a class="page-link" href="{{next_page_url}}">Next</a>
+                </li>
+        </ul>
+    </nav>
+
 
     <!-- Editing of the post will be done inside a MODAL -->
     <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModal" aria-hidden="true">
@@ -121,31 +157,4 @@
         </div>
     </div>
 </div>
-
-<!-- Navigation bar to go back and forth between different pages-->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
-            <a class="page-link" href="{{prev_page_url}}" tabindex="-1" aria-disabled="true">Previous</a>
-        </li>
-        {% for page_num in page.paginator.page_range %}
-        {% if page.number == page_num %}
-
-        <li class="page-item active" aria-current="page">
-            <a class="page-link" href="?page={{page_num}}">{{page_num}} <span class="sr-only"></span></a>
-        </li>
-
-        {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %} <li class="page-item">
-            <a class="page-link" href="?page={{page_num}}">
-                {{page_num}}
-            </a>
-            </li>
-            {% endif %}
-            {% endfor %}
-
-            <li class="page-item {% if not next_page_url %} disabled {% endif %}">
-                <a class="page-link" href="{{next_page_url}}">Next</a>
-            </li>
-    </ul>
-</nav>
 {% endblock %}
