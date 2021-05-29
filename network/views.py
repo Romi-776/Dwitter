@@ -68,10 +68,15 @@ def posts_of_following(request):
 
     # checking that there's at least one person that i'm following
     if not len(my_following):
+
+        # getting suggestions to follow these users
+        friend_suggestions = User.objects.exclude(username = request.user.username)
+
         return render(
             request,
             "network/index.html",
             {
+                "friend_suggestions": friend_suggestions,
                 "on_index_page": False,
             },
         )

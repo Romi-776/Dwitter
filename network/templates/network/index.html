@@ -92,69 +92,94 @@
             {{post.0.posted_on}}
         </div>
     </div>
+    <!-- When there's no post -->
     {% empty %}
+    <!-- and we're on the index page then show this message-->
     {% if on_index_page %}
     <h2 class="text-center">No Post is shared yet</h2>
+
+    <!-- otherwise show this message-->
     {% else %}
-    <h2 class="text-center" style="color: crimson;">Please Follow Someone to see their posts</h2>
-    {% endif %}
-    {% endfor %}
+    <h2 class="text-center" style="color:coral;">Please Follow Someone to see their posts</h2>
 
-    <!-- Navigation bar to go back and forth between different pages-->
-    {% if page.object_list %}
-    <nav aria-label="Page navigation example" style="display: block;">
-    {% else %}
-    <nav aria-label="Page navigation example" style="display: none;">
-    {% endif %}
-        <ul class="pagination justify-content-center">
-            <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
-                <a class="page-link" href="{{prev_page_url}}" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            {% for page_num in page.paginator.page_range %}
-            {% if page.number == page_num %}
+    {% for suggestion in friend_suggestions %}
+    <div class="col-lg-6" style="margin: auto; margin-top: 10px; padding: 5px; padding: 10px;">
+        <div class="d-flex flex-row border rounded">
+            <div>
+                <img src="{{suggestion.user_profile.profile_pic.url}}"
+                    style="height: 80px;width: 80px; border-radius: 50%; margin-top: 15px;margin-left: 8px;"
+                    class="img-thumbnail border-0">
 
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="?page={{page_num}}">{{page_num}} <span class="sr-only"></span></a>
-            </li>
-
-            {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %} <li class="page-item">
-                <a class="page-link" href="?page={{page_num}}">
-                    {{page_num}}
-                </a>
-                </li>
-                {% endif %}
-                {% endfor %}
-
-                <li class="page-item {% if not next_page_url %} disabled {% endif %}">
-                    <a class="page-link" href="{{next_page_url}}">Next</a>
-                </li>
-        </ul>
-    </nav>
-
-
-    <!-- Editing of the post will be done inside a MODAL -->
-    <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="postModal">Edit Post</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="message-text" class="col-form-label">Post Content:</label>
-                            <textarea class="form-control" id="message-text"></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id='close-modal' class="btn btn-secondary"
-                        data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="save-changes" class="btn btn-primary">Save Changes</button>
-                </div>
+            </div>
+            <div style="margin: auto; text-align: center;">
+                <h5 class="text-primary">{{suggestion.username}}</h5>
+                <p style="font-size: small;">{{suggestion.user_profile.bio}}</p>
+                <button type="button" onclick="location.href='/{{suggestion.pk}}'""
+                    style="margin-bottom: 5px;margin-left: 15px;" class="btn btn-outline-info btn-sm"> View Profile
+                </button>
             </div>
         </div>
     </div>
+    {% endfor %}
+
+    {% endif %}
+    {% endfor %}
+
+    <!-- Navigation bar to go back and forth between different pages will be shown only when there's-->
+    {% if page.object_list %}
+    <nav aria-label="Page navigation example" style="display: block;">
+        {% else %}
+        <nav aria-label="Page navigation example" style="display: none;">
+            {% endif %}
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
+                    <a class="page-link" href="{{prev_page_url}}" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                {% for page_num in page.paginator.page_range %}
+                {% if page.number == page_num %}
+
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="?page={{page_num}}">{{page_num}} <span class="sr-only"></span></a>
+                </li>
+
+                {%elif page_num > page.number|add:-3 and page_num < page.number|add:3 %} <li class="page-item">
+                    <a class="page-link" href="?page={{page_num}}">
+                        {{page_num}}
+                    </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    <li class="page-item {% if not next_page_url %} disabled {% endif %}">
+                        <a class="page-link" href="{{next_page_url}}">Next</a>
+                    </li>
+            </ul>
+        </nav>
+
+
+        <!-- Editing of the post will be done inside a MODAL -->
+        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="postModal">Edit Post</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="message-text" class="col-form-label">Post Content:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id='close-modal' class="btn btn-secondary"
+                            data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="save-changes" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </div>
 {% endblock %}
