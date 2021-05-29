@@ -7,14 +7,14 @@
     It is done like this because the same template will be used in following page also.
 -->
 {% if on_index_page %}
-<div class="card text-center new-post">
+<div class="card text-center new-post" style="margin-top: 15px;">
     <div class="card-header"> <b>New Post</b></div>
     <div class="card-body">
         <form action="{% url 'share_post' %}" method="POST">
             {% csrf_token %}
             <textarea name='description' autofocus class="form-control" id="exampleFormControlTextarea1" rows="3"
                 placeholder="Share your thoughts..."></textarea>
-            <button type="submit" style="border-radius: 5px 23px;" class="btn btn-outline-info">Share</button>
+            <button type="submit" style="border-radius: 5px 23px; margin-top: 10px;" class="btn btn-outline-info">Share</button>
         </form>
     </div>
 </div>
@@ -28,20 +28,30 @@
 
     {% with u_name=post.0.posted_by.username %}
 
-    <div class="card">
-        <div class="card-header">
-            <!-- Getting the post's owner's username and link to his/her profile page -->
-            <a href='{{post.0.posted_by.pk}}'>
-                <strong>{{u_name}}</strong>
-            </a>
+    <div class="card" style=" margin-top: 10px;">
+        <div class="card-header" style="padding-top: 5px; padding-bottom:0">
             <!-- Edit button for posts that can only be seen by the owner of the post -->
             {% if u_name == request.user.username %}
-            <span class="float-right">
-                <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#postModal"
-                    data-bs-post_owner="{{u_name}}" data-bs-post_no="{{post.0.pk}}"
+            <span>
+                <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#postModal" data-bs-post_owner="{{u_name}}" data-bs-post_no="{{post.0.pk}}"
+                    style="border-radius: 3px 14px;float: right; margin-top: 10px;"
                     data-bs-post="{{post.0.description}}">Edit</button>
             </span>
             {% endif %}
+            <!-- Getting the post's owner's username and link to his/her profile page -->
+            <a href='{{post.0.posted_by.pk}}' style="text-decoration: none; color: rgba(0, 0, 0, 0.844);">
+                <div>
+                    <img style="height: 46px; width: 46px; border-radius: 50%;float: left; margin:0 8px 0 0;"
+                        src="{{post.0.posted_by.user_profile.profile_pic.url}}" alt="{{u_name}} profile pic">
+                </div>
+                <p style="padding-top:10px">
+                    <strong>{{u_name}}</strong>
+                </p>
+            </a>
+
+
+
         </div>
         {% endwith %}
         <!-- Post details -->
@@ -115,7 +125,7 @@
                 <h5 class="text-primary">{{suggestion.username}}</h5>
                 <p style="font-size: small;">{{suggestion.user_profile.bio}}</p>
                 <button type="button" onclick="location.href='/{{suggestion.pk}}'""
-                    style="margin-bottom: 5px;margin-left: 15px;" class="btn btn-outline-info btn-sm"> View Profile
+                    style=" margin-bottom: 5px;margin-left: 15px;" class="btn btn-outline-info btn-sm"> View Profile
                 </button>
             </div>
         </div>
@@ -127,9 +137,9 @@
 
     <!-- Navigation bar to go back and forth between different pages will be shown only when there's-->
     {% if page.object_list %}
-    <nav aria-label="Page navigation example" style="display: block;">
+    <nav aria-label="Page navigation example" style="display: block; margin-top: 10px; margin-bottom: 10px;">
         {% else %}
-        <nav aria-label="Page navigation example" style="display: none;">
+        <nav aria-label="Page navigation example" style="display: none; margin-top: 10px; margin-bottom: 10px;">
             {% endif %}
             <ul class="pagination justify-content-center">
                 <li class="page-item {% if not prev_page_url %} disabled {% endif %}">
@@ -175,8 +185,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id='close-modal' class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="button" id="save-changes" class="btn btn-primary">Save Changes</button>
+                            style="border-radius: 5px 23px;" data-bs-dismiss="modal">Close</button>
+                        <button type="button" style="border-radius: 5px 23px;" id="save-changes"
+                            class="btn btn-primary">Save Changes</button>
                     </div>
                 </div>
             </div>
