@@ -14,7 +14,7 @@
             {% csrf_token %}
             <textarea name='description' autofocus class="form-control" id="exampleFormControlTextarea1" rows="3"
                 placeholder="Share your thoughts..."></textarea>
-            <button type="submit" style="border-radius: 5px 23px; margin-top: 10px;" class="btn btn-outline-info">Share</button>
+            <button type="submit" style="border-radius: 5px 23px; margin-top: 10px;" class="btn btn-outline-primary">Share</button>
         </form>
     </div>
 </div>
@@ -113,7 +113,7 @@
     <h2 class="text-center" style="color:coral;">Please Follow Someone to see their posts</h2>
 
     {% for suggestion in friend_suggestions %}
-    <div class="col-lg-6" style="margin: auto; margin-top: 10px; padding: 5px; padding: 10px;">
+    <div class="col-lg-8" style="margin: auto; margin-top: 10px; padding: 5px; padding: 10px;">
         <div class="d-flex flex-row border rounded">
             <div>
                 <img src="{{suggestion.user_profile.profile_pic.url}}"
@@ -131,6 +131,7 @@
         </div>
     </div>
     {% endfor %}
+    <div style="margin-top: 30px ;"></div>
 
     {% endif %}
     {% endfor %}

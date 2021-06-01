@@ -39,8 +39,9 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     </head>
 
-    <body style="margin: auto;" class=" col-lg-6">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <body style="margin: auto; border-left: 1px solid rgb(208, 202, 202);border-right: 1px solid rgb(208, 202, 202);"
+        class=" col-lg-6">
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(198, 231, 252);">
             <a class="navbar-brand" style="padding-left: 3px;line-height: 15px;" href="{% url 'index' %}">
                 <svg viewBox="0 0 24 24" id="twitter-icon" style="height: 25px;"
                     class="r-k200y r-13gxpu9 r-4qtqp9 r-yyyyoo r-eu3ka r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
@@ -54,8 +55,7 @@
             </a>
 
 
-            <div class="navbar-nav nav-pills navbar-light bg-light" id="v-pills-tab" role="tablist"
-                aria-orientation="vertical">
+            <div class="navbar-nav nav-pills navbar-light" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 {% if user.is_authenticated %}
                 <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="{% url 'profile'%}" role="tab"
                     aria-controls="v-pills-home" aria-selected="true"><strong>{{ request.user.username }}</strong></a>
