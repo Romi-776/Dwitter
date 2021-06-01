@@ -217,7 +217,7 @@ def profile(request):
     """Seeing the personal profile of the login user"""
 
     # getting all the posts of that user
-    posts = post.objects.filter(posted_by=request.user)
+    posts = post.objects.filter(posted_by=request.user).order_by("-posted_on")
 
     # getting the no. of followers and following
     followers = User.objects.get(username=request.user.username).my_followers.count()
@@ -299,7 +299,7 @@ def others_profile(request, user_id):
     # checking that the user exists or not
     if user:
         # getting the user's details
-        posts = post.objects.filter(posted_by=user)
+        posts = post.objects.filter(posted_by=user).order_by("-posted_on")
         followers = User.objects.get(username=user.username).my_followers.count()
         following = User.objects.get(username=user.username).my_following.count()
 
