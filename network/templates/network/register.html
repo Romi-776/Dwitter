@@ -1,7 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-<div class="text-center">
+<div class="text-center"  style="margin-top: 13%;">
     <svg viewBox="0 0 24 24" id="twitter-icon" style="height: 40px;margin-top: 10px;"
         class="r-k200y r-13gxpu9 r-4qtqp9 r-yyyyoo r-eu3ka r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">
         <g>
@@ -16,7 +16,7 @@
     <div style="color: red;margin-top: 5px;margin-bottom: 5px;">{{ message }}</div>
     {% endif %}
 
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'register' %}" method="post" class="col-lg-8" style="margin: auto;">
         {% csrf_token %}
         <div class="form-group">
             <input style="margin-top: 15px;margin-bottom: 15px;" class="form-control" autofocus type="text"

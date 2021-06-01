@@ -89,7 +89,7 @@ def posts_of_following(request):
     posts_and_likes = []
 
     for user in my_following_names:
-        this_users_post = post.objects.filter(posted_by=user)
+        this_users_post = post.objects.filter(posted_by=user).order_by("-posted_on")
         for each_post in this_users_post:
             posts_and_likes.append(
                 (each_post, likes.objects.filter(on_which_post=each_post).count())
@@ -97,7 +97,7 @@ def posts_of_following(request):
 
     # getting posts that need to be shown on a single page.
     """Currently showing only 1 post per page but needs to be changed to 10"""
-    paginator = Paginator(posts_and_likes, 1)
+    paginator = Paginator(posts_and_likes, 10)
     page_number = request.GET.get("page", 1)
     page = paginator.get_page(page_number)
 

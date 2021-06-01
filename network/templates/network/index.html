@@ -77,21 +77,21 @@
             -->
             <div id="div" style="float: left; margin-right: 5px;">
                 {% if post.0.pk in my_liked_posts %}
-                <i id="i" onclick="like_dislike(event)" style="color: #e23b3b;" data-post_no="{{post.0.pk}}"
+                <i id="i_{{post.0.pk}}" onclick="like_dislike(event)" style="color: #e23b3b;" data-post_no="{{post.0.pk}}"
                     data-liked="true"></i>
                 {% else %}
                 {% if request.user.is_authenticated %}
 
-                <i id="i" onclick="like_dislike(event)" style="color:#aaa;" data-post_no="{{post.0.pk}}"
+                <i id="i_{{post.0.pk}}" onclick="like_dislike(event)" style="color:#aaa;" data-post_no="{{post.0.pk}}"
                     data-liked="false"></i>
 
                 {% else %}
 
-                <i id="i" onclick="go_to_login_page()" style="color:#aaa;" data-post_no="{{post.0.pk}}"
+                <i id="i_{{post.0.pk}}" onclick="go_to_login_page()" style="color:#aaa;" data-post_no="{{post.0.pk}}"
                     data-liked="false"></i>
                 {% endif %}
                 {% endif %}
-                <p id="likes_count" style="float: right; cursor: pointer; margin-left: 8px;">
+                <p id="likes_count_of_{{post.0.pk}}" style="float: right; cursor: pointer; margin-left: 8px;">
                     <!-- Likes count -->
                     {{post.1}}
                 </p>

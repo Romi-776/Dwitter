@@ -98,28 +98,29 @@ function showImage(event) {
 // changing the likes count 
 function like_dislike(event) {
     var like_post = true
-    var count = parseInt(document.getElementById('likes_count').innerText)
+    const post_no = parseInt(event.target.getAttribute('data-post_no'))
+    var count = parseInt(document.getElementById(`likes_count_of_${post_no}`).innerText)
 
     // changing count on frontend
     if (event.target.getAttribute('data-liked') === 'true') {
         event.target.setAttribute('data-liked', 'false')
-        document.getElementById('i').style.color = '#aaa'
+        document.getElementById(`i_${post_no}`).style.color = '#aaa'
         count -= 1
     }
     else {
-        document.getElementById('i').style.color = '#e23b3b'
+        document.getElementById(`i_${post_no}`).style.color = '#e23b3b'
         count += 1
         event.target.setAttribute('data-liked', 'true')
         like_post = false
     }
 
-    document.getElementById('likes_count').innerText = count
-
+    document.getElementById(`likes_count_of_${post_no}`).innerText = count
+    console.log(`${parseInt(event.target.getAttribute('data-post_no'))} this post is updated`)
     // updating count in the db
     fetch('/like_post', {
         method: 'POST',
         body: JSON.stringify({
-            post_id: `${parseInt(event.target.getAttribute('data-post_no'))}`,
+            post_id: `${post_no}`,
             like_this: `${like_post}`
         })
     })
